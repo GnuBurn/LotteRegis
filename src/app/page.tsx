@@ -1,9 +1,9 @@
-import Form from 'next/form'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import HomeSearch from '@/components/HomeSearch'
 import { Icon, type IconName } from '@/components/icons'
 import { WorkshopGrid } from '@/components/WorkshopCard'
-import { buttonPrimary, CardSkeleton, container, ErrorPanel } from '@/components/ui'
+import { CardSkeleton, container, ErrorPanel } from '@/components/ui'
 import { getWorkshops } from '@/libs/api'
 import { isPast } from '@/libs/dates'
 
@@ -21,14 +21,7 @@ export default function Home() {
             <p className="max-w-xl text-lg text-muted">
               Popular workshops fill in seconds. Here, everyone who applies before the deadline gets the same chance — no refreshing, no racing.
             </p>
-            <Form action="/workshops" className="flex flex-col gap-3 sm:flex-row">
-              <label className="flex h-12 flex-1 items-center gap-2.5 rounded-[10px] border border-line bg-surface px-4 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/25 sm:max-w-md">
-                <Icon name="search" className="h-[18px] w-[18px] text-muted" />
-                <input name="search" placeholder="Search workshops, topics or instructors" aria-label="Search workshops"
-                  className="w-full bg-transparent text-[15px] outline-none placeholder:text-muted" />
-              </label>
-              <button className={buttonPrimary}>Browse workshops</button>
-            </Form>
+            <HomeSearch />
           </div>
 
           <div id="how-it-works" className="scroll-mt-24 rounded-2xl border border-line bg-surface p-8">
@@ -54,7 +47,7 @@ export default function Home() {
             <h2 className="text-[28px] font-bold tracking-tight">Open for entries</h2>
             <p className="mt-1.5 text-[15px] text-muted">Upcoming workshops you can still join.</p>
           </div>
-          <Link href="/workshops" className="text-sm font-semibold text-primary hover:text-primary-hover">See all workshops →</Link>
+          <Link href="/workshop" className="text-sm font-semibold text-primary hover:text-primary-hover">See all workshops →</Link>
         </div>
         <Suspense fallback={<CardSkeleton count={6} />}>
           <UpcomingWorkshops />

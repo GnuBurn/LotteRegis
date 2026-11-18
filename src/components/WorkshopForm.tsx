@@ -2,6 +2,7 @@ import { saveWorkshop } from '@/app/actions'
 import type { Workshop } from '@/interface'
 import { toInputDate, todayUtc } from '@/libs/dates'
 import ActionForm, { SubmitButton } from './ActionForm'
+import ImageField from './ImageField'
 import ModeFields from './ModeFields'
 import { buttonPrimary, inputClass, labelClass } from './ui'
 
@@ -19,6 +20,7 @@ export default function WorkshopForm({ workshop }: { workshop?: Workshop }) {
         <textarea name="description" required rows={5} defaultValue={workshop?.description}
           placeholder="What will participants learn?" className={inputClass} />
       </label>
+      <ImageField currentUrl={workshop?.image?.url} />
       <div className="grid gap-5 sm:grid-cols-2">
         <label className={labelClass}>
           Instructor

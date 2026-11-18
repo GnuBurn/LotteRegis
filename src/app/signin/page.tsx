@@ -22,6 +22,6 @@ export default function SignInPage({ searchParams }: PageProps<'/signin'>) {
 async function SignInFormWithParams({ searchParams }: { searchParams: PageProps<'/signin'>['searchParams'] }) {
   const { callbackUrl, error } = await searchParams
   // Only allow same-site redirects after sign-in
-  const target = typeof callbackUrl === 'string' && callbackUrl.startsWith('/') && !callbackUrl.startsWith('//') ? callbackUrl : '/workshops'
+  const target = typeof callbackUrl === 'string' && callbackUrl.startsWith('/') && !callbackUrl.startsWith('//') ? callbackUrl : '/workshop'
   return <SignInForm callbackUrl={target} initialError={typeof error === 'string'} />
 }

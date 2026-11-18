@@ -23,7 +23,7 @@ export default function RegisterForm() {
       redirect: false,
     })
     if (login?.ok && !login.error) {
-      router.replace('/workshops')
+      router.replace('/workshop')
       router.refresh()
       return { success: 'Account created! Taking you to the workshops…' }
     }

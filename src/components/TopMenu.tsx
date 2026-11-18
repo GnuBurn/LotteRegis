@@ -20,7 +20,7 @@ export default function TopMenu() {
           <span className="text-lg font-bold tracking-tight">Lotte Workshops</span>
         </Link>
         <div className="hidden items-center gap-8 md:flex">
-          <Link href="/workshops" className={linkClass}>Workshops</Link>
+          <Link href="/workshop" className={linkClass}>Workshops</Link>
           <Link href="/#how-it-works" className={linkClass}>How the lottery works</Link>
         </div>
         <div className="ml-auto flex items-center gap-3">
