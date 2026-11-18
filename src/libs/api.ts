@@ -5,20 +5,23 @@ const BACKEND_URL = process.env.BACKEND_URL ?? 'http://localhost:5000'
 type FetchOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
   token?: string
+  // FormData is sent as multipart/form-data (for file uploads); anything else as JSON
   body?: unknown
 }
 
 // Calls the workshop backend and normalizes its { success, data, error } responses
 export async function apiFetch<T>(path: string, { method = 'GET', token, body }: FetchOptions = {}): Promise<ApiResult<T>> {
+  // fetch sets the multipart boundary header itself
+  const isForm = body instanceof FormData
   try {
     const res = await fetch(`${BACKEND_URL}/api/v1${path}`, {
       method,
       cache: 'no-store',
       headers: {
-        ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+        ...(body !== undefined && !isForm ? { 'Content-Type': 'application/json' } : {}),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      body: body !== undefined ? JSON.stringify(body) : undefined,
+      body: body === undefined ? undefined : isForm ? body : JSON.stringify(body),
     })
     const json = await res.json().catch(() => null)
 

@@ -2,6 +2,11 @@ export type Role = 'member' | 'admin'
 export type RegistrationMode = 'fcfs' | 'lottery'
 export type RegistrationStatus = 'confirmed' | 'pending' | 'not_selected'
 
+export interface WorkshopImage {
+  url: string
+  publicId: string
+}
+
 export interface Workshop {
   _id: string
   name: string
@@ -14,6 +19,8 @@ export interface Workshop {
   registrationMode: RegistrationMode
   lotteryCloseDate: string | null
   lotteryDrawnAt: string | null
+  // Cover image on Cloudinary; missing on workshops created before images existed
+  image?: WorkshopImage | null
   // Only on workshop list/detail responses
   confirmedCount?: number
   pendingCount?: number

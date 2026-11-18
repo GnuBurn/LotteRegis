@@ -5,6 +5,6 @@ import { getSession } from './session'
 export async function requireAdmin(callbackUrl: string) {
   const session = await getSession()
   if (!session) redirect(`/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`)
-  if (session.user.role !== 'admin') redirect('/workshops')
+  if (session.user.role !== 'admin') redirect('/workshop')
   return session
 }

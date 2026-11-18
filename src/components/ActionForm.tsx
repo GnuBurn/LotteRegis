@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from 'react'
+import { createContext, startTransition, useActionState, useContext } from 'react'
 import { useFormStatus } from 'react-dom'
 import type { ActionState } from '@/interface'
 
@@ -11,26 +11,37 @@ type Props = {
   className?: string
 }
 
+const PendingContext = createContext(false)
+
 // A form wired to a server action that shows the action's success/error message.
+// React resets <form action> forms after every submission, even failed ones, so we
+// submit from onSubmit instead to keep what the user typed (and picked files) on error.
+// `action` stays on the form so it still works before JavaScript loads.
 export default function ActionForm({ action, children, confirmMessage, className }: Props) {
-  const [state, formAction] = useActionState(action, {})
+  const [state, formAction, isPending] = useActionState(action, {})
 
   return (
     <form
       action={formAction}
       className={className}
       onSubmit={(e) => {
-        if (confirmMessage && !window.confirm(confirmMessage)) e.preventDefault()
+        e.preventDefault()
+        if (confirmMessage && !window.confirm(confirmMessage)) return
+        const formData = new FormData(e.currentTarget, (e.nativeEvent as SubmitEvent).submitter)
+        startTransition(() => formAction(formData))
       }}
     >
-      {children}
+      <PendingContext.Provider value={isPending}>{children}</PendingContext.Provider>
       <Notice state={state} />
     </form>
   )
 }
 
 export function SubmitButton({ children, pendingText, className }: { children: React.ReactNode; pendingText: string; className: string }) {
-  const { pending } = useFormStatus()
+  // useFormStatus only sees native form submissions, so also read ActionForm's pending flag
+  const actionPending = useContext(PendingContext)
+  const { pending: nativePending } = useFormStatus()
+  const pending = actionPending || nativePending
   return (
     <button type="submit" disabled={pending} className={className}>
       {pending ? pendingText : children}

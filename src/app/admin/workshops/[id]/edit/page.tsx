@@ -33,7 +33,7 @@ async function EditContent({ params }: { params: PageProps<'/admin/workshops/[id
   return (
     <>
       <Panel><WorkshopForm workshop={res.data} /></Panel>
-      <Link href={`/workshops/${id}`} className="mt-6 inline-block text-sm text-muted hover:text-ink">← Back to workshop</Link>
+      <Link href={`/workshop/${id}`} className="mt-6 inline-block text-sm text-muted hover:text-ink">← Back to workshop</Link>
     </>
   )
 }

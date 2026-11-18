@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import type { Workshop } from '@/interface'
 import { formatWorkshopDate, isLotteryOpen, isPast } from '@/libs/dates'
@@ -12,13 +13,23 @@ export default function WorkshopCard({ workshop: w }: { workshop: Workshop }) {
 
   return (
     <Link
-      href={`/workshops/${w._id}`}
+      href={`/workshop/${w._id}`}
       className={`group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_4px_16px_rgba(15,23,42,0.06)] transition hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(15,23,42,0.10)] ${past ? 'opacity-60' : ''}`}
     >
-      <div className="flex h-40 flex-col justify-between bg-primary-soft p-6 text-primary">
-        <span className="text-xs font-bold uppercase tracking-widest">{lottery ? 'Lottery' : 'First come, first served'}</span>
-        <Icon name={lottery ? 'shuffle' : 'users'} className="h-10 w-10" />
-      </div>
+      {w.image ? (
+        <div className="relative h-40 bg-primary-soft">
+          <Image src={w.image.url} alt="" fill sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition duration-300 group-hover:scale-[1.03]" />
+          <span className="absolute left-4 top-4 rounded-full bg-surface/90 px-3 py-1 text-xs font-bold uppercase tracking-widest text-primary">
+            {lottery ? 'Lottery' : 'First come, first served'}
+          </span>
+        </div>
+      ) : (
+        <div className="flex h-40 flex-col justify-between bg-primary-soft p-6 text-primary">
+          <span className="text-xs font-bold uppercase tracking-widest">{lottery ? 'Lottery' : 'First come, first served'}</span>
+          <Icon name={lottery ? 'shuffle' : 'users'} className="h-10 w-10" />
+        </div>
+      )}
       <div className="flex flex-1 flex-col gap-3 p-6 pt-5">
         <Badge tone={badge.tone}>{badge.label}</Badge>
         <h3 className="text-lg font-semibold leading-snug group-hover:text-primary">{w.name}</h3>

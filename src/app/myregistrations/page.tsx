@@ -61,7 +61,7 @@ async function RegistrationsContent() {
           <IconCircle icon="ticket" tone="primary" size="lg" />
           <p className="mt-4 text-xl font-semibold">No registrations yet</p>
           <p className="mt-2 text-muted">{isAdmin ? 'Members have not registered for any workshops.' : 'Find a workshop you like and enter the draw or save your seat.'}</p>
-          {!isAdmin && <Link href="/workshops" className={`${buttonPrimary} mt-6`}>Browse workshops</Link>}
+          {!isAdmin && <Link href="/workshop" className={`${buttonPrimary} mt-6`}>Browse workshops</Link>}
         </Panel>
       </>
     )
@@ -151,7 +151,7 @@ function RegistrationRow({ registration: r, showUser, editable = false, moveOpti
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-8">
         <div className="min-w-0 flex-1">
           {w?.isActive ? (
-            <Link href={`/workshops/${w._id}`} className="text-[17px] font-semibold hover:text-primary">{w.name}</Link>
+            <Link href={`/workshop/${w._id}`} className="text-[17px] font-semibold hover:text-primary">{w.name}</Link>
           ) : (
             <span className="text-[17px] font-semibold">{w?.name ?? 'Unknown workshop'}</span>
           )}
